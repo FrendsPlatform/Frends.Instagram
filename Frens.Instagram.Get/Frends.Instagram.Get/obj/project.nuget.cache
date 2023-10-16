@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "AYwcUJE+51aA9quNjUpAnzKY7cz47GxwmrkUBa+/bxvmSH/j7oNRDuKidwB2XPXtBv7/FbId7rMMh8DATWk9Qw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tossate\\source\\repos\\Frends.Instagram.Get\\Frens.Instagram.Get\\Frends.Instagram.Get\\Frends.Instagram.Get.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tossate\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\tossate\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512",
+    "C:\\Users\\tossate\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

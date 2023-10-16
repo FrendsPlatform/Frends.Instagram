@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Frends.Instagram.Get</name>
+    </assembly>
+    <members>
+        <member name="T:Frends.Instagram.Get.Definitions.Input">
+            <summary>
+            Input class usually contains parameters that are required.
+            </summary>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Input.Reference">
+            <summary>
+            Gets or sets reference type.
+            </summary>
+            <example>Insights.</example>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Input.Other">
+            <summary>
+            Gets or sets reference when reference is other. All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference.
+            </summary>
+            <example>Insights.</example>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Input.ObjectId">
+            <summary>
+            Gets or sets object id of the reference.
+            </summary>
+            <example>123456789.</example>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Input.Parameters">
+            <summary>
+            Gets or sets list of parameters.
+            </summary>
+            <example>[{ Name, Value }].</example>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Input.Token">
+            <summary>
+            Gets or sets authentication bearer token.
+            </summary>
+            <example>BearerToken1234.</example>
+        </member>
+        <member name="T:Frends.Instagram.Get.Definitions.Parameter">
+            <summary>
+            Parameter class includes name and value.
+            </summary>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Parameter.Name">
+            <summary>
+            Gets or sets the name of the parameter.
+            </summary>
+            <example>Name.</example>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Parameter.Value">
+            <summary>
+            Gets or sets the value of the parameter.
+            </summary>
+            <example>Value.</example>
+        </member>
+        <member name="T:Frends.Instagram.Get.Definitions.References">
+            <summary>
+            Enum class for dropdown choice.
+            </summary>
+        </member>
+        <member name="F:Frends.Instagram.Get.Definitions.References.Pages">
+            <summary>
+            Get Pages.
+            </summary>
+        </member>
+        <member name="F:Frends.Instagram.Get.Definitions.References.Insights">
+            <summary>
+            Get Media or User Insights.
+            </summary>
+        </member>
+        <member name="F:Frends.Instagram.Get.Definitions.References.Stories">
+            <summary>
+            Get User Stories.
+            </summary>
+        </member>
+        <member name="F:Frends.Instagram.Get.Definitions.References.Other">
+            <summary>
+            Get with other reference.
+            </summary>
+        </member>
+        <member name="T:Frends.Instagram.Get.Definitions.Result">
+            <summary>
+            Result class usually contains properties of the return object.
+            </summary>
+        </member>
+        <member name="M:Frends.Instagram.Get.Definitions.Result.#ctor(System.Boolean,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Frends.Instagram.Get.Definitions.Result"/> class.
+            </summary>
+            <param name="success">Indicates whether GET call was executed succesfully.</param>
+            <param name="message">Returns the message from the interface.</param>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Result.Success">
+            <summary>
+            Gets a value indicating whether GET call was executed successfully.
+            </summary>
+            <example>True.</example>
+        </member>
+        <member name="P:Frends.Instagram.Get.Definitions.Result.Message">
+            <summary>
+            Gets message from the interface.
+            </summary>
+            <example>Example of the output.</example>
+        </member>
+        <member name="T:Frends.Instagram.Get.Instagram">
+            <summary>
+            Instagram class.
+            </summary>
+        </member>
+        <member name="F:Frends.Instagram.Get.Instagram.Client">
+            <summary>
+            HTTP client.
+            </summary>
+        </member>
+        <member name="M:Frends.Instagram.Get.Instagram.Get(Frends.Instagram.Get.Definitions.Input,System.Threading.CancellationToken)">
+            <summary>
+            This is Task for reading data from Instagram API.
+            [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Instagram.Get).
+            </summary>
+            <param name="input">Set reference type, parameters and token.</param>
+            <param name="cancellationToken">Cancellation token given by Frends.</param>
+            <returns>Object { bool Success, dynamic Message }.</returns>
+        </member>
+    </members>
+</doc>
