@@ -17,7 +17,7 @@ public class UnitTests
     /// <summary>
     /// Client.
     /// </summary>
-    internal static readonly HttpClient Client = new ();
+    internal static readonly HttpClient Client = new();
     private readonly string token = Environment.GetEnvironmentVariable("Facebook_token");
     private string objectId;
 
