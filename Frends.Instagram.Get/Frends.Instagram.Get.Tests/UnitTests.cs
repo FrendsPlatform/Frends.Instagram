@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 public class UnitTests
 {
     /// <summary>
-    /// Client.
+    /// Client
     /// </summary>
     internal static readonly HttpClient Client = new();
     private readonly string token = Environment.GetEnvironmentVariable("Facebook_token");
