@@ -1,4 +1,5 @@
-﻿namespace Frends.Instagram.Get;
+﻿#pragma warning disable SA1503 // Braces should not be omitted
+namespace Frends.Instagram.Get;
 
 using Frends.Instagram.Get.Definitions;
 using System;
@@ -26,23 +27,20 @@ public static class Instagram
     /// <returns>Object { bool Success, dynamic Message }.</returns>
     public static async Task<Result> Get([PropertyTab] Input input, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(input.Token))
-            throw new ArgumentNullException(nameof(input.Token) + " cannot be empty.");
+        if (string.IsNullOrEmpty(input.AccessToken))
+            throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
 
         try
         {
-            var url = GetUrl(input, cancellationToken);
-
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(url),
+                RequestUri = new Uri(GetUrl(input)),
             };
-            request.Headers.Add("Authorization", "Bearer " + input.Token);
 
-            var responseMessage = Client.Send(request, cancellationToken);
+            var responseMessage = await Client.SendAsync(request, cancellationToken);
             responseMessage.EnsureSuccessStatusCode();
-            var responseString = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
 
             return new Result(true, responseString);
         }
@@ -52,42 +50,57 @@ public static class Instagram
         }
     }
 
-    private static string GetUrl(Input input, CancellationToken cancellationToken)
+    private static string GetUrl(Input input)
     {
-        var url = "https://graph.facebook.com/v18.0/";
+        var url = @$"https://graph.facebook.com/{input.ApiVersion}/";
 
         // Set url base
         switch (input.Reference)
         {
-            case References.Insights:
-                url += input.ObjectId + "/insights";
+            case References.Fields:
+                url += $"{input.ObjectId}";
                 break;
-            case References.Stories:
-                url += input.ObjectId + "/stories";
+            case References.MediaChildren:
+                url += $"{input.ObjectId}/children";
                 break;
-            case References.Pages:
-                url += input.ObjectId;
+            case References.UserMedia:
+                url += $"{input.ObjectId}/media";
                 break;
             case References.Other:
-                url += input.Other;
+                url = input.ObjectId != null ? url += $"{input.ObjectId}/{input.Other}" : url += $"{input.Other}";
                 break;
         }
 
         if (input.Parameters != null)
         {
             url += "?";
+            var metric = "metric=";
+            var field = "fields=";
 
-            for (int i = 0; i < input.Parameters.Length; i++)
+            foreach (var parameter in input.Parameters)
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var objectName = parameter.ObjectName.Equals(ObjectNames.Other) ? parameter.Other : parameter.ObjectName.ToString();
 
-                if (i != 0 && i != input.Parameters.Length)
-                    url += "&";
+                if (parameter.ObjectType.Equals(ObjectTypes.Metric))
+                    metric += $"{objectName}={parameter.ObjectValue}";
 
-                url += $"{input.Parameters[i].Name}={input.Parameters[i].Value}";
+                if (parameter.ObjectType.Equals(ObjectTypes.Field))
+                    field += $"{objectName}={parameter.ObjectValue}";
             }
+
+            if (metric.Length > "metric=".Length)
+            {
+                url += metric;
+
+                if (field.Length > "fields=".Length)
+                    url += $"&{field}";
+            }
+
+            if (metric.Length == "metric=".Length && field.Length > "fields=".Length)
+                url += field;
         }
 
+        url += $"&access_token={input.AccessToken}";
         return url;
     }
 }

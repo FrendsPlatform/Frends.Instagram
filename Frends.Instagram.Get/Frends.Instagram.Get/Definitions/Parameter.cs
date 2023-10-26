@@ -1,23 +1,33 @@
-﻿namespace Frends.Instagram.Get.Definitions;
-
-using System.ComponentModel.DataAnnotations;
+﻿#pragma warning disable SA1629 // Documentation text should end with a period
+namespace Frends.Instagram.Get.Definitions;
 
 /// <summary>
-/// Parameter class includes name and value.
+/// Parameter class.
 /// </summary>
 public class Parameter
 {
     /// <summary>
-    /// Gets or sets the name of the parameter.
+    /// Gets or sets parameter type.
     /// </summary>
-    /// <example>Name.</example>
-    [DisplayFormat(DataFormatString = "Text")]
-    public string Name { get; set; }
+    /// <example>ObjectTypes.Field.</example>
+    public ObjectTypes ObjectType { get; set; }
 
     /// <summary>
-    /// Gets or sets the value of the parameter.
+    /// Gets or sets object's name.
     /// </summary>
-    /// <example>Value.</example>
-    [DisplayFormat(DataFormatString = "Text")]
-    public string Value { get; set; }
+    /// <example>Names.IsSharedToFeed.</example>
+    public ObjectNames ObjectName { get; set; }
+
+    /// <summary>
+    /// Gets or sets manually set object name.
+    /// </summary>
+    /// <example>otherobject</example>
+    public string Other { get; set; }
+
+    /// <summary>
+    /// Gets or sets value.
+    /// Can be empty.
+    /// </summary>
+    /// <example>1698206594</example>
+    public string ObjectValue { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿namespace Frends.Instagram.Get.Definitions;
+﻿#pragma warning disable SA1629 // Documentation text should end with a period.
+namespace Frends.Instagram.Get.Definitions;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,26 +9,34 @@ using System.ComponentModel.DataAnnotations;
 /// </summary>
 public class Input
 {
+
     /// <summary>
     /// Gets or sets reference type.
     /// </summary>
-    /// <example>Insights.</example>
-    [DefaultValue(References.Insights)]
+    /// <example>References.UserMedia</example>
+    [DefaultValue(References.UserMedia)]
     public References Reference { get; set; }
 
     /// <summary>
-    /// Gets or sets reference when reference is other. All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference.
+    /// Gets or sets reference when reference is other.
+    /// All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference.
     /// </summary>
-    /// <example>Insights.</example>
+    /// <example>{objectid}/{referencevalue}</example>
     [UIHint(nameof(Reference), "", References.Other)]
     [DisplayFormat(DataFormatString = "Text")]
-    [DefaultValue("Insight")]
     public string Other { get; set; }
 
     /// <summary>
-    /// Gets or sets object id of the reference.
+    /// Gets or sets API version.
     /// </summary>
-    /// <example>123456789.</example>
+    /// <example>18.0</example>
+    [DefaultValue("18.0")]
+    public string ApiVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets object ID of the reference.
+    /// </summary>
+    /// <example>123456789</example>
     [DisplayFormat(DataFormatString = "Text")]
     [DefaultValue("123456789")]
     public string ObjectId { get; set; }
@@ -35,15 +44,15 @@ public class Input
     /// <summary>
     /// Gets or sets list of parameters.
     /// </summary>
-    /// <example>[{ Name, Value }].</example>
-    public Parameter[] Parameters { get; set; } = System.Array.Empty<Parameter>();
+    /// <example>[{ ObjectType, Name, Value }].</example>
+    public Parameter[] Parameters { get; set; }
 
     /// <summary>
-    /// Gets or sets authentication bearer token.
+    /// Gets or sets access token.
     /// </summary>
-    /// <example>BearerToken1234.</example>
+    /// <example>foo123</example>
     [PasswordPropertyText]
     [DisplayFormat(DataFormatString = "Text")]
-    [DefaultValue("BearerToken1234")]
-    public string Token { get; set; }
+    [DefaultValue("foo123")]
+    public string AccessToken { get; set; }
 }

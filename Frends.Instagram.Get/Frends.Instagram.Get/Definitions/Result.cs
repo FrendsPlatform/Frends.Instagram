@@ -1,4 +1,5 @@
-﻿namespace Frends.Instagram.Get.Definitions;
+﻿#pragma warning disable SA1629 // Documentation text should end with a period
+namespace Frends.Instagram.Get.Definitions;
 
 /// <summary>
 /// Result class usually contains properties of the return object.
@@ -19,7 +20,7 @@ public class Result
     /// <summary>
     /// Gets a value indicating whether GET call was executed successfully.
     /// </summary>
-    /// <example>True.</example>
+    /// <example>true</example>
     public bool Success { get; private set; }
 
     /// <summary>
