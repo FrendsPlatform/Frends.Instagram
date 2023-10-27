@@ -33,10 +33,14 @@ public static class Instagram
 
         try
         {
+            var url = !string.IsNullOrWhiteSpace(input.References)
+            ? $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}{input.References}&access_token={input.AccessToken}"
+            : $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}?access_token={input.AccessToken}";
+
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(GetUrl(input)),
+                RequestUri = new Uri(url),
             };
 
             var responseMessage = await Client.SendAsync(request, cancellationToken);
@@ -51,59 +55,5 @@ public static class Instagram
                 throw new Exception(ex.Message, ex.InnerException);
             return new Result(false, null, ex.Message);
         }
-    }
-
-    private static string GetUrl(Input input)
-    {
-        var url = $"https://graph.facebook.com/v{input.ApiVersion}/";
-
-        // Set url base
-        switch (input.Reference)
-        {
-            case References.Fields:
-                url += $"{input.ObjectId}";
-                break;
-            case References.MediaChildren:
-                url += $"{input.ObjectId}/children";
-                break;
-            case References.UserMedia:
-                url += $"{input.ObjectId}/media";
-                break;
-            case References.Other:
-                url = input.ObjectId != null ? url += $"{input.ObjectId}/{input.Other}" : url += $"{input.Other}";
-                break;
-        }
-
-        if (input.Parameters != null && input.Parameters.Length > 0)
-        {
-            url += "?";
-            var metric = "metric=";
-            var field = "fields=";
-
-            foreach (var parameter in input.Parameters)
-            {
-                var objectName = parameter.ObjectName.Equals(ObjectNames.Other) ? parameter.Other : parameter.ObjectName.ToString();
-
-                if (parameter.ObjectType.Equals(ObjectTypes.Metric))
-                    metric += $"{objectName}={parameter.ObjectValue}";
-
-                if (parameter.ObjectType.Equals(ObjectTypes.Field))
-                    field += $"{objectName}={parameter.ObjectValue}";
-            }
-
-            if (metric.Length > "metric=".Length)
-            {
-                url += metric;
-
-                if (field.Length > "fields=".Length)
-                    url += $"&{field}";
-            }
-
-            if (metric.Length == "metric=".Length && field.Length > "fields=".Length)
-                url += field;
-        }
-
-        url += $"?access_token={input.AccessToken}";
-        return url;
     }
 }

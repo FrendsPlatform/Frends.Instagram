@@ -1,7 +1,6 @@
 ﻿#pragma warning disable SA1629 // Documentation text should end with a period.
 namespace Frends.Instagram.Get.Definitions;
 
-using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,20 +10,22 @@ using System.ComponentModel.DataAnnotations;
 public class Input
 {
     /// <summary>
-    /// Gets or sets reference type.
+    /// Gets or sets object ID of the reference.
     /// </summary>
-    /// <example>References.UserMedia</example>
-    [DefaultValue(References.UserMedia)]
-    public References Reference { get; set; }
+    /// <example>123456789</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    public string ObjectId { get; set; }
 
     /// <summary>
-    /// Gets or sets reference when reference is other.
-    /// All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference.
+    /// Gets or sets references.
+    /// All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference
     /// </summary>
-    /// <example>{otherreference}</example>
-    [UIHint(nameof(Reference), "", References.Other)]
-    [DisplayFormat(DataFormatString = "Text")]
-    public string Other { get; set; }
+    /// <example>
+    ///     /accounts
+    ///     ?fields=foo&amp;metric=bar
+    ///     /ig_hashtag_search?user_id={user-id}&amp;q={q}
+    /// </example>
+    public string References { get; set; }
 
     /// <summary>
     /// Gets or sets API version.
@@ -33,19 +34,6 @@ public class Input
     [DisplayFormat(DataFormatString = "Text")]
     [DefaultValue("18.0")]
     public string ApiVersion { get; set; }
-
-    /// <summary>
-    /// Gets or sets object ID of the reference.
-    /// </summary>
-    /// <example>123456789</example>
-    [DisplayFormat(DataFormatString = "Text")]
-    public string ObjectId { get; set; }
-
-    /// <summary>
-    /// Gets or sets list of parameters.
-    /// </summary>
-    /// <example>[{ ObjectType, Name, Value }].</example>
-    public Parameter[] Parameters { get; set; } = Array.Empty<Parameter>();
 
     /// <summary>
     /// Gets or sets access token.
