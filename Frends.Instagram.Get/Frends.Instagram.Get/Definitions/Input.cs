@@ -1,6 +1,7 @@
 ﻿#pragma warning disable SA1629 // Documentation text should end with a period.
 namespace Frends.Instagram.Get.Definitions;
 
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +10,6 @@ using System.ComponentModel.DataAnnotations;
 /// </summary>
 public class Input
 {
-
     /// <summary>
     /// Gets or sets reference type.
     /// </summary>
@@ -21,7 +21,7 @@ public class Input
     /// Gets or sets reference when reference is other.
     /// All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference.
     /// </summary>
-    /// <example>{objectid}/{referencevalue}</example>
+    /// <example>{otherreference}</example>
     [UIHint(nameof(Reference), "", References.Other)]
     [DisplayFormat(DataFormatString = "Text")]
     public string Other { get; set; }
@@ -30,6 +30,7 @@ public class Input
     /// Gets or sets API version.
     /// </summary>
     /// <example>18.0</example>
+    [DisplayFormat(DataFormatString = "Text")]
     [DefaultValue("18.0")]
     public string ApiVersion { get; set; }
 
@@ -38,21 +39,19 @@ public class Input
     /// </summary>
     /// <example>123456789</example>
     [DisplayFormat(DataFormatString = "Text")]
-    [DefaultValue("123456789")]
     public string ObjectId { get; set; }
 
     /// <summary>
     /// Gets or sets list of parameters.
     /// </summary>
     /// <example>[{ ObjectType, Name, Value }].</example>
-    public Parameter[] Parameters { get; set; }
+    public Parameter[] Parameters { get; set; } = Array.Empty<Parameter>();
 
     /// <summary>
     /// Gets or sets access token.
     /// </summary>
-    /// <example>foo123</example>
+    /// <example>abc123</example>
     [PasswordPropertyText]
     [DisplayFormat(DataFormatString = "Text")]
-    [DefaultValue("foo123")]
     public string AccessToken { get; set; }
 }

@@ -23,9 +23,10 @@ public static class Instagram
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Instagram.Get).
     /// </summary>
     /// <param name="input">Set reference type, parameters and token.</param>
+    /// <param name="options">Optional parameters.</param>
     /// <param name="cancellationToken">Cancellation token given by Frends.</param>
     /// <returns>Object { bool Success, dynamic Message }.</returns>
-    public static async Task<Result> Get([PropertyTab] Input input, CancellationToken cancellationToken)
+    public static async Task<Result> Get([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(input.AccessToken))
             throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
@@ -42,17 +43,19 @@ public static class Instagram
             responseMessage.EnsureSuccessStatusCode();
             var responseString = await responseMessage.Content.ReadAsStringAsync();
 
-            return new Result(true, responseString);
+            return new Result(true, responseString, null);
         }
         catch (Exception ex)
         {
-            return new Result(false, ex.Message);
+            if (options.ThrowErrorOnFailure)
+                throw new Exception(ex.Message, ex.InnerException);
+            return new Result(false, null, ex.Message);
         }
     }
 
     private static string GetUrl(Input input)
     {
-        var url = @$"https://graph.facebook.com/{input.ApiVersion}/";
+        var url = $"https://graph.facebook.com/v{input.ApiVersion}/";
 
         // Set url base
         switch (input.Reference)
@@ -71,7 +74,7 @@ public static class Instagram
                 break;
         }
 
-        if (input.Parameters != null)
+        if (input.Parameters != null && input.Parameters.Length > 0)
         {
             url += "?";
             var metric = "metric=";
@@ -100,7 +103,7 @@ public static class Instagram
                 url += field;
         }
 
-        url += $"&access_token={input.AccessToken}";
+        url += $"?access_token={input.AccessToken}";
         return url;
     }
 }

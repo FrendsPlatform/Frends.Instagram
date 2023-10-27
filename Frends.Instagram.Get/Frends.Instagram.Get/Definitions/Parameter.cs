@@ -1,5 +1,6 @@
 ﻿#pragma warning disable SA1629 // Documentation text should end with a period
 namespace Frends.Instagram.Get.Definitions;
+using System.ComponentModel.DataAnnotations;
 
 /// <summary>
 /// Parameter class.
@@ -22,6 +23,8 @@ public class Parameter
     /// Gets or sets manually set object name.
     /// </summary>
     /// <example>otherobject</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    [UIHint(nameof(ObjectName), "", ObjectNames.Other)]
     public string Other { get; set; }
 
     /// <summary>
@@ -29,5 +32,6 @@ public class Parameter
     /// Can be empty.
     /// </summary>
     /// <example>1698206594</example>
+    [DisplayFormat(DataFormatString = "Text")]
     public string ObjectValue { get; set; }
 }

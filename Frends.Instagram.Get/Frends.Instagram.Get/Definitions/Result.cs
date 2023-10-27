@@ -9,12 +9,14 @@ public class Result
     /// <summary>
     /// Initializes a new instance of the <see cref="Result"/> class.
     /// </summary>
-    /// <param name="success">Indicates whether GET call was executed succesfully.</param>
-    /// <param name="message">Returns the message from the interface.</param>
-    internal Result(bool success, object message)
+    /// <param name="success">Indicates whether GET request was executed succesfully.</param>
+    /// <param name="data">GET request data.</param>
+    /// <param name="errorMessage">Error message.</param>
+    internal Result(bool success, object data, string errorMessage)
     {
         this.Success = success;
-        this.Message = message;
+        this.Data = data;
+        this.ErrorMessage = errorMessage;
     }
 
     /// <summary>
@@ -24,8 +26,14 @@ public class Result
     public bool Success { get; private set; }
 
     /// <summary>
-    /// Gets message from the interface.
+    /// Gets GET request data.
     /// </summary>
     /// <example>Example of the output.</example>
-    public dynamic Message { get; private set; }
+    public dynamic Data { get; private set; }
+
+    /// <summary>
+    /// Gets error message.
+    /// </summary>
+    /// <example>An error occured...</example>
+    public string ErrorMessage { get; private set; }
 }

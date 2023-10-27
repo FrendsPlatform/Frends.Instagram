@@ -7,6 +7,7 @@ public enum References
 {
     /// <summary>
     /// Get fields and edges of the object.
+    /// Parameters should be empty.
     /// </summary>
     Fields,
 
