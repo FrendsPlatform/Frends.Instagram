@@ -25,7 +25,7 @@ public static class Instagram
     /// <param name="input">Set reference type, parameters and token.</param>
     /// <param name="options">Optional parameters.</param>
     /// <param name="cancellationToken">Cancellation token given by Frends.</param>
-    /// <returns>Object { bool Success, dynamic Message }.</returns>
+    /// <returns>Object { bool Success, dynamic Data, string ErrorMessage }.</returns>
     public static async Task<Result> Get([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(input.AccessToken))
