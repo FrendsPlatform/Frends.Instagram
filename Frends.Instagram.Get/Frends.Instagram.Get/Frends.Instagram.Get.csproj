@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
+	  <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
 	  <LangVersion>Latest</LangVersion>
-	  <Version>1.0.0</Version>
+	  <Version>1.1.0</Version>
 	  <Authors>Frends</Authors>
 	  <Copyright>Frends</Copyright>
 	  <Company>Frends</Company>
@@ -13,7 +13,7 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <Description>Task for fetching data from Instagram API.</Description>
 	  <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.classNameForTask/tree/main/namespaceForTask</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Instagram/tree/main/Frends.Instagram.Get</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,17 +21,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-  </ItemGroup>
-  
+	
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 	</PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

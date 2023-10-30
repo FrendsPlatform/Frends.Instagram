@@ -1,5 +1,5 @@
 # Frends.Instagram.Get
-The Task gets data from Instagram API with given reference, parameters and token.
+The Task gets data from Instagram API.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Build](https://github.com/FrendsPlatform/Frends.Instagram/actions/workflows/Get_build_and_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.Instagram/actions)

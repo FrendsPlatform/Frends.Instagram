@@ -1,4 +1,5 @@
-﻿namespace Frends.Instagram.Get;
+﻿#pragma warning disable SA1503 // Braces should not be omitted
+namespace Frends.Instagram.Get;
 
 using Frends.Instagram.Get.Definitions;
 using System;
@@ -22,72 +23,42 @@ public static class Instagram
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Instagram.Get).
     /// </summary>
     /// <param name="input">Set reference type, parameters and token.</param>
+    /// <param name="options">Optional parameters.</param>
     /// <param name="cancellationToken">Cancellation token given by Frends.</param>
-    /// <returns>Object { bool Success, dynamic Message }.</returns>
-    public static async Task<Result> Get([PropertyTab] Input input, CancellationToken cancellationToken)
+    /// <returns>Object { bool Success, dynamic Data, string ErrorMessage }.</returns>
+    public static async Task<Result> Get([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(input.Token))
-            throw new ArgumentNullException(nameof(input.Token) + " cannot be empty.");
+        if (string.IsNullOrEmpty(input.AccessToken))
+            throw new ArgumentNullException(input.AccessToken + " cannot be empty.");
 
         try
         {
-            var url = GetUrl(input, cancellationToken);
+            var url = !string.IsNullOrWhiteSpace(input.References)
+            ? $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}{input.References}&access_token={input.AccessToken}"
+            : $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}?access_token={input.AccessToken}";
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(url),
             };
-            request.Headers.Add("Authorization", "Bearer " + input.Token);
 
-            var responseMessage = Client.Send(request, cancellationToken);
+            var responseMessage = await Client.SendAsync(request, cancellationToken);
             responseMessage.EnsureSuccessStatusCode();
-            var responseString = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+            var responseString = string.Empty;
+#if NETSTANDARD2_0
+            responseString = await responseMessage.Content.ReadAsStringAsync();
+#elif NET6_0_OR_GREATER
+            responseString = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+#endif
 
-            return new Result(true, responseString);
+            return new Result(true, responseString, null);
         }
         catch (Exception ex)
         {
-            return new Result(false, ex.Message);
+            if (options.ThrowErrorOnFailure)
+                throw new Exception(ex.Message, ex.InnerException);
+            return new Result(false, null, ex.Message);
         }
-    }
-
-    private static string GetUrl(Input input, CancellationToken cancellationToken)
-    {
-        var url = "https://graph.facebook.com/v18.0/";
-
-        // Set url base
-        switch (input.Reference)
-        {
-            case References.Insights:
-                url += input.ObjectId + "/insights";
-                break;
-            case References.Stories:
-                url += input.ObjectId + "/stories";
-                break;
-            case References.Pages:
-                url += input.ObjectId;
-                break;
-            case References.Other:
-                url += input.Other;
-                break;
-        }
-
-        if (input.Parameters != null)
-        {
-            url += "?";
-
-            for (int i = 0; i < input.Parameters.Length; i++)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                if (i != 0 && i != input.Parameters.Length)
-                    url += "&";
-
-                url += $"{input.Parameters[i].Name}={input.Parameters[i].Value}";
-            }
-        }
-
-        return url;
     }
 }
