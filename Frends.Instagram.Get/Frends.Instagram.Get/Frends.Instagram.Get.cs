@@ -16,7 +16,7 @@ public static class Instagram
     /// <summary>
     /// HTTP client.
     /// </summary>
-    internal static readonly HttpClient Client = new ();
+    internal static readonly HttpClient Client = new();
 
     /// <summary>
     /// This is Task for reading data from Instagram API.
