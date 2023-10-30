@@ -16,7 +16,7 @@ public static class Instagram
     /// <summary>
     /// HTTP client.
     /// </summary>
-    internal static readonly HttpClient Client = new();
+    internal static readonly HttpClient Client = new ();
 
     /// <summary>
     /// This is Task for reading data from Instagram API.
@@ -29,7 +29,7 @@ public static class Instagram
     public static async Task<Result> Get([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(input.AccessToken))
-            throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
+            throw new ArgumentNullException(input.AccessToken + " cannot be empty.");
 
         try
         {
@@ -45,7 +45,12 @@ public static class Instagram
 
             var responseMessage = await Client.SendAsync(request, cancellationToken);
             responseMessage.EnsureSuccessStatusCode();
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            var responseString = string.Empty;
+        #if NETSTANDARD2_0
+            responseString = await responseMessage.Content.ReadAsStringAsync();
+        #elif NET6_0_OR_GREATER
+            responseString = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+        #endif
 
             return new Result(true, responseString, null);
         }

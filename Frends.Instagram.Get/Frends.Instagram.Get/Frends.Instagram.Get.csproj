@@ -3,7 +3,7 @@
   <PropertyGroup>
 	  <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
 	  <LangVersion>Latest</LangVersion>
-	  <Version>0.0.8</Version>
+	  <Version>1.1.0</Version>
 	  <Authors>Frends</Authors>
 	  <Copyright>Frends</Copyright>
 	  <Company>Frends</Company>
@@ -13,7 +13,7 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <Description>Task for fetching data from Instagram API.</Description>
 	  <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.classNameForTask/tree/main/namespaceForTask</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Instagram/tree/main/Frends.Instagram.Get</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
