@@ -14,11 +14,6 @@ using System.Threading.Tasks;
 public static class Instagram
 {
     /// <summary>
-    /// HTTP client.
-    /// </summary>
-    internal static readonly HttpClient Client = new();
-
-    /// <summary>
     /// This is Task for reading data from Instagram API.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Instagram.Get).
     /// </summary>
@@ -29,7 +24,9 @@ public static class Instagram
     public static async Task<Result> Get([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(input.AccessToken))
-            throw new ArgumentNullException(input.AccessToken + " cannot be empty.");
+            throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
+        if (string.IsNullOrEmpty(input.ApiVersion))
+            throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
 
         try
         {
@@ -37,16 +34,17 @@ public static class Instagram
             ? $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}{input.References}&access_token={input.AccessToken}"
             : $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}?access_token={input.AccessToken}";
 
+            using var client = new HttpClient();
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(url),
             };
 
-            var responseMessage = await Client.SendAsync(request, cancellationToken);
+            var responseMessage = await client.SendAsync(request, cancellationToken);
             responseMessage.EnsureSuccessStatusCode();
             var responseString = string.Empty;
-#if NETSTANDARD2_0
+#if NET471
             responseString = await responseMessage.Content.ReadAsStringAsync();
 #elif NET6_0_OR_GREATER
             responseString = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
