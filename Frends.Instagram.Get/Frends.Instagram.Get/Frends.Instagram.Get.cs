@@ -27,12 +27,14 @@ public static class Instagram
             throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
         if (string.IsNullOrEmpty(input.ApiVersion))
             throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
+        if (!string.IsNullOrEmpty(input.QueryParameters) && string.IsNullOrEmpty(input.Reference))
+            throw new Exception("Input.ObjectId cannot be empty when Input.QueryParameters is set.");
 
         try
         {
-            var url = !string.IsNullOrWhiteSpace(input.References)
-            ? $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}{input.References}&access_token={input.AccessToken}"
-            : $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}?access_token={input.AccessToken}";
+            var url = !string.IsNullOrWhiteSpace(input.QueryParameters)
+            ? $@"https://graph.facebook.com/v{input.ApiVersion}/{input.Reference}?{input.QueryParameters}&access_token={input.AccessToken}"
+            : $@"https://graph.facebook.com/v{input.ApiVersion}/{input.Reference}?access_token={input.AccessToken}";
 
             using var client = new HttpClient();
             var request = new HttpRequestMessage
