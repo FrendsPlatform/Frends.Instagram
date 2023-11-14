@@ -1,4 +1,8 @@
 # Changelog
+## [1.2.0] - 2023-11-14
+### Changed
+- netstandard2.0 + .net6 targets support to framework 4.7.1 + .net6
+
 ## [1.1.0] - 2023-10-27
 ### Added
 - Support for netstandard2.0.

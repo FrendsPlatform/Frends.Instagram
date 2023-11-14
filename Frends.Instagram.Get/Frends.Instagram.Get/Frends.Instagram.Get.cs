@@ -29,13 +29,17 @@ public static class Instagram
     public static async Task<Result> Get([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(input.AccessToken))
-            throw new ArgumentNullException(input.AccessToken + " cannot be empty.");
+            throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
+        if (string.IsNullOrEmpty(input.ApiVersion))
+            throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
 
         try
         {
             var url = !string.IsNullOrWhiteSpace(input.References)
             ? $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}{input.References}&access_token={input.AccessToken}"
             : $@"https://graph.facebook.com/v{input.ApiVersion}/{input.ObjectId}?access_token={input.AccessToken}";
+
+            HttpClient client = new();
 
             var request = new HttpRequestMessage
             {
@@ -46,7 +50,7 @@ public static class Instagram
             var responseMessage = await Client.SendAsync(request, cancellationToken);
             responseMessage.EnsureSuccessStatusCode();
             var responseString = string.Empty;
-#if NETSTANDARD2_0
+#if NET471
             responseString = await responseMessage.Content.ReadAsStringAsync();
 #elif NET6_0_OR_GREATER
             responseString = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
