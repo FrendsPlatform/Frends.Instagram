@@ -10,22 +10,18 @@ using System.ComponentModel.DataAnnotations;
 public class Input
 {
     /// <summary>
-    /// Gets or sets object ID of the reference.
+    /// Gets or sets object ID or the reference.
+    /// For more information: https://developers.facebook.com/docs/instagram-api/reference
     /// </summary>
-    /// <example>123456789</example>
+    /// <example>{ig-user-id}/media, {ig-media-id}, {ig-media-id}/insights</example>
     [DisplayFormat(DataFormatString = "Text")]
-    public string ObjectId { get; set; }
+    public string Reference { get; set; }
 
     /// <summary>
-    /// Gets or sets references.
-    /// All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference
+    /// Gets or sets query parameters.
     /// </summary>
-    /// <example>
-    ///     /accounts
-    ///     ?fields=foo&amp;metric=bar
-    ///     /ig_hashtag_search?user_id={user-id}&amp;q={q}
-    /// </example>
-    public string References { get; set; }
+    /// <example>fields=id,media_type</example>
+    public string QueryParameters { get; set; }
 
     /// <summary>
     /// Gets or sets API version.

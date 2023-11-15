@@ -13,8 +13,8 @@ public class UnitTests
     {
         var input = new Input
         {
-            ObjectId = null,
-            References = "me?fields=id,name,accounts,business_users",
+            Reference = "me",
+            QueryParameters = "fields=id,name,accounts,business_users",
             ApiVersion = "18.0",
             AccessToken = _token,
         };
@@ -28,12 +28,12 @@ public class UnitTests
     }
 
     [TestMethod]
-    public async Task Get_ObjectId_Success()
+    public async Task Get_Reference_Success()
     {
         var input = new Input
         {
-            ObjectId = "6727087737314510",
-            References = null,
+            Reference = "6727087737314510",
+            QueryParameters = null,
             ApiVersion = "18.0",
             AccessToken = _token,
         };
@@ -51,8 +51,8 @@ public class UnitTests
     {
         var input = new Input
         {
-            ObjectId = "123",
-            References = "me?fields=id,name,accounts,business_users",
+            Reference = "123",
+            QueryParameters = "me?fields=id,name,accounts,business_users",
             ApiVersion = "18.0",
             AccessToken = _token,
         };
@@ -71,8 +71,8 @@ public class UnitTests
     {
         var input = new Input
         {
-            ObjectId = "123",
-            References = "me?fields=id,name,accounts,business_users",
+            Reference = "123",
+            QueryParameters = "me?fields=id,name,accounts,business_users",
             ApiVersion = "18.0",
             AccessToken = _token,
         };
