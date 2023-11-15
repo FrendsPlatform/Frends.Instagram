@@ -20,10 +20,7 @@ public class Input
     /// <summary>
     /// Gets or sets query parameters.
     /// </summary>
-    /// <example>
-    ///     fields=foo&amp;metric=bar
-    ///     /ig_hashtag_search?user_id={user-id}&amp;q={q}
-    /// </example>
+    /// <example>fields=id,media_type</example>
     public string QueryParameters { get; set; }
 
     /// <summary>

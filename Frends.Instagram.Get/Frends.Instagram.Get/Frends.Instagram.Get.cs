@@ -28,7 +28,7 @@ public static class Instagram
         if (string.IsNullOrEmpty(input.ApiVersion))
             throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
         if (!string.IsNullOrEmpty(input.QueryParameters) && string.IsNullOrEmpty(input.Reference))
-            throw new Exception("Input.ObjectId cannot be empty when Input.QueryParameters is set.");
+            throw new Exception(@$"{nameof(input.Reference)} cannot be empty when {nameof(input.QueryParameters)} is set.");
 
         try
         {
