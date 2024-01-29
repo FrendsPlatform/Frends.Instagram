@@ -43,7 +43,7 @@ public class UnitTests
             ApiVersion = "18.0",
         };
 
-        var ret = Facebook.Request(input, new Options(), default);
+        var ret = Instagram.Request(input, new Options(), default);
         Assert.IsNotNull(ret);
 
         /* Test user has no permissions for this and request currently returns an error code.
@@ -65,7 +65,7 @@ public class UnitTests
             ApiVersion = "18.0",
         };
 
-        var ret = Facebook.Request(input, new Options(), default);
+        var ret = Instagram.Request(input, new Options(), default);
         Assert.IsNotNull(ret);
 
         /* Test user has no permissions for this and request currently returns an error code.
@@ -87,7 +87,7 @@ public class UnitTests
             ApiVersion = "18.0",
         };
 
-        var ret = Facebook.Request(input, new Options { ThrowErrorOnFailure = true }, default);
+        var ret = Instagram.Request(input, new Options { ThrowErrorOnFailure = true }, default);
         Assert.IsNotNull(ret);
         Assert.AreEqual(ret.Result.Statuscode, 200);
         Assert.IsTrue(ret.Result.Message.Contains(objectId));
@@ -105,7 +105,7 @@ public class UnitTests
             ApiVersion = "18.0",
         };
 
-        var ret = Facebook.Request(input, new Options(), default);
+        var ret = Instagram.Request(input, new Options(), default);
         Assert.IsNotNull(ret);
         Assert.AreEqual(ret.Result.Statuscode, 200);
         Assert.IsTrue(ret.Result.Message.Contains(objectId));
@@ -122,7 +122,7 @@ public class UnitTests
             ApiVersion = "18.0",
         };
 
-        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Facebook.Request(input, new Options(), default));
+        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
         Assert.IsNotNull(ret);
     }
 
@@ -138,7 +138,7 @@ public class UnitTests
             Message = "{ \"message\": \"This is a test.\" }",
         };
 
-        var ret = await Facebook.Request(input, new Options(), default);
+        var ret = await Instagram.Request(input, new Options(), default);
         Assert.IsNotNull(ret);
         Assert.AreNotEqual(ret.Statuscode, 200);
     }
@@ -156,7 +156,7 @@ public class UnitTests
 
         var option = new Options { ThrowErrorOnFailure = true };
 
-        var ret = Assert.ThrowsAsync<Exception>(() => Facebook.Request(input, option, default));
+        var ret = Assert.ThrowsAsync<Exception>(() => Instagram.Request(input, option, default));
         Assert.IsNotNull(ret);
     }
 
@@ -172,7 +172,7 @@ public class UnitTests
             Message = string.Empty,
         };
 
-        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Facebook.Request(input, new Options(), default));
+        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
         Assert.IsNotNull(ret);
     }
 
@@ -188,7 +188,7 @@ public class UnitTests
             Message = "{ \"message\": \"This is a test.\" }",
         };
 
-        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Facebook.Request(input, new Options(), default));
+        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
         Assert.IsNotNull(ret);
     }
 
@@ -204,7 +204,7 @@ public class UnitTests
             Message = "{ \"message\": \"This is a test.\" }",
         };
 
-        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Facebook.Request(input, new Options(), default));
+        var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
         Assert.IsNotNull(ret);
     }
 
