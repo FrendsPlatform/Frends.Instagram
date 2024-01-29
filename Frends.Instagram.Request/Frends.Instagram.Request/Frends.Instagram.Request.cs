@@ -10,14 +10,14 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Frends.Facebook.Request.Definitions;
+using Frends.Instagram.Request.Definitions;
 
-namespace Frends.Facebook.Request;
+namespace Frends.Instagram.Request;
 
 /// <summary>
 /// Facebook class.
 /// </summary>
-public static class Facebook
+public static class Instagram
 {
     /// <summary>
     /// This is task for reading data from Facebook API.

@@ -1,6 +1,6 @@
-namespace Frends.Facebook.Request.Tests;
+namespace Frends.Instagram.Request.Tests;
 
-using Frends.Facebook.Request.Definitions;
+using Frends.Instagram.Request.Definitions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;

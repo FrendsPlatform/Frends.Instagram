@@ -1,4 +1,4 @@
-﻿namespace Frends.Facebook.Request.Definitions;
+﻿namespace Frends.Instagram.Request.Definitions;
 
 /// <summary>
 /// Request header.

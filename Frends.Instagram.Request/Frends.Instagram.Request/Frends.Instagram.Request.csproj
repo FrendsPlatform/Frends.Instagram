@@ -11,9 +11,9 @@
 	  <PackageTags>Frends</PackageTags>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	  <Description>Task for making HTTP requests to Facebook API.</Description>
+	  <Description>Task for making HTTP requests to Instagram API.</Description>
 	  <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Facebook/tree/main/Frends.Facebook.Request</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Instagram/tree/main/Frends.Instagram.Request</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

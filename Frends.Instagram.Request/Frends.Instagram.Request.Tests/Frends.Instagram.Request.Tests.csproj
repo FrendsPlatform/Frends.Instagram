@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Frends.Facebook.Request\Frends.Facebook.Request.csproj" />
+    <ProjectReference Include="..\Frends.Instagram.Request\Frends.Instagram.Request.csproj" />
   </ItemGroup>
 
 </Project>
