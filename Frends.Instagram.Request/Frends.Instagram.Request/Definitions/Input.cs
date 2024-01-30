@@ -23,7 +23,7 @@ public class Input
     public string Message { get; set; }
 
     /// <summary>
-    /// Gets or sets object id or reference. All reference types can be found from: https://developers.facebook.com/docs/graph-api/reference.
+    /// Gets or sets object id or reference. All reference types can be found from: https://developers.facebook.com/docs/instagram-api/reference.
     /// </summary>
     /// <example>123456789, 123456789/insights</example>
     [DisplayFormat(DataFormatString = "Text")]

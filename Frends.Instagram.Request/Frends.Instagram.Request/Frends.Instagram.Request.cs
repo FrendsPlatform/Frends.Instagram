@@ -20,7 +20,7 @@ namespace Frends.Instagram.Request;
 public static class Instagram
 {
     /// <summary>
-    /// This is task for reading data from Facebook API.
+    /// This is task for reading data from Instagram API.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Facebook.Get).
     /// </summary>
     /// <param name="input">Set reference type, parameters and token.</param>
