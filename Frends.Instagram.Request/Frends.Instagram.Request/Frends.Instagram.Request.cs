@@ -15,12 +15,12 @@ using Frends.Instagram.Request.Definitions;
 namespace Frends.Instagram.Request;
 
 /// <summary>
-/// Facebook class.
+/// Instagram class.
 /// </summary>
 public static class Instagram
 {
     /// <summary>
-    /// This is task for reading data from Instagram API.
+    /// This is Frends task for sending requests to Instagram API.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Facebook.Get).
     /// </summary>
     /// <param name="input">Set reference type, parameters and token.</param>
@@ -31,11 +31,11 @@ public static class Instagram
     {
         if (string.IsNullOrEmpty(input.AccessToken))
             throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
-        else if (string.IsNullOrEmpty(input.ApiVersion))
+        if (string.IsNullOrEmpty(input.ApiVersion))
             throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
-        else if (string.IsNullOrEmpty(input.Reference))
+        if (string.IsNullOrEmpty(input.Reference))
             throw new ArgumentNullException(nameof(input.Reference) + " cannot be empty.");
-        else if (string.IsNullOrEmpty(input.Message) && Enum.GetNames(typeof(SendMethods)).Contains(input.Method.ToString()))
+        if (string.IsNullOrEmpty(input.Message) && Enum.GetNames(typeof(SendMethods)).Contains(input.Method.ToString()))
             throw new ArgumentNullException(nameof(input.Message) + " cannot be empty.");
 
         var headers = GetHeaderDictionary(input);
@@ -54,9 +54,15 @@ public static class Instagram
         var hbody = string.Empty;
 
 #if NET471
-        hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false) : null;
-        content.Dispose();
-        responseMessage.Dispose();
+        try
+        {
+            hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false) : null;
+        }
+        finally
+        {
+            content.Dispose();
+            responseMessage.Dispose();
+        }
 #elif NET6_0_OR_GREATER
         hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false) : null;
 #endif
@@ -123,9 +129,7 @@ public static class Instagram
                 // this check is probably not needed anymore as the new HttpClient does not seem fail on malformed headers
                 var contentHeaderAddedSuccessfully = content.Headers.TryAddWithoutValidation(header.Key, header.Value);
                 if (!contentHeaderAddedSuccessfully)
-                {
                     Trace.TraceWarning($"Could not add header {header.Key}:{header.Value}");
-                }
             }
         }
 
@@ -136,11 +140,9 @@ public static class Instagram
         }
         catch (TaskCanceledException canceledException)
         {
+            // Cancellation is from outside -> Just throw
             if (cancellationToken.IsCancellationRequested)
-            {
-                // Cancellation is from outside -> Just throw
                 throw;
-            }
 
             // Cancellation is from inside of the request, mostly likely a timeout
             throw new Exception("HttpRequest was canceled, most likely due to a timeout.", canceledException);
