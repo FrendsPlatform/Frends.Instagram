@@ -107,49 +107,48 @@ public static class Instagram
         // Only POST, PUT, PATCH and DELETE can have content, otherwise the HttpClient will fail
         var isContentAllowed = Enum.TryParse(method, ignoreCase: true, result: out SendMethods _);
 
-        using (var request = new HttpRequestMessage(new HttpMethod(method), new Uri(url))
+        using var request = new HttpRequestMessage(new HttpMethod(method), new Uri(url))
         {
             Content = isContentAllowed ? content : null,
-        })
+        };
+
+        // Clear default headers
+        content.Headers.Clear();
+        foreach (var header in headers)
         {
-            // Clear default headers
-            content.Headers.Clear();
-            foreach (var header in headers)
+            var requestHeaderAddedSuccessfully = request.Headers.TryAddWithoutValidation(header.Key, header.Value);
+            if (!requestHeaderAddedSuccessfully && request.Content != null)
             {
-                var requestHeaderAddedSuccessfully = request.Headers.TryAddWithoutValidation(header.Key, header.Value);
-                if (!requestHeaderAddedSuccessfully && request.Content != null)
+                // Could not add to request headers try to add to content headers
+                // this check is probably not needed anymore as the new HttpClient does not seem fail on malformed headers
+                var contentHeaderAddedSuccessfully = content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                if (!contentHeaderAddedSuccessfully)
                 {
-                    // Could not add to request headers try to add to content headers
-                    // this check is probably not needed anymore as the new HttpClient does not seem fail on malformed headers
-                    var contentHeaderAddedSuccessfully = content.Headers.TryAddWithoutValidation(header.Key, header.Value);
-                    if (!contentHeaderAddedSuccessfully)
-                    {
-                        Trace.TraceWarning($"Could not add header {header.Key}:{header.Value}");
-                    }
+                    Trace.TraceWarning($"Could not add header {header.Key}:{header.Value}");
                 }
             }
-
-            HttpResponseMessage response;
-            try
-            {
-                response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            }
-            catch (TaskCanceledException canceledException)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    // Cancellation is from outside -> Just throw
-                    throw;
-                }
-
-                // Cancellation is from inside of the request, mostly likely a timeout
-                throw new Exception("HttpRequest was canceled, most likely due to a timeout.", canceledException);
-            }
-
-            request.Dispose();
-            httpClient.Dispose();
-
-            return response;
         }
+
+        HttpResponseMessage response;
+        try
+        {
+            response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+        catch (TaskCanceledException canceledException)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                // Cancellation is from outside -> Just throw
+                throw;
+            }
+
+            // Cancellation is from inside of the request, mostly likely a timeout
+            throw new Exception("HttpRequest was canceled, most likely due to a timeout.", canceledException);
+        }
+
+        request.Dispose();
+        httpClient.Dispose();
+
+        return response;
     }
 }
