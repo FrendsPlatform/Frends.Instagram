@@ -147,9 +147,11 @@ public static class Instagram
             // Cancellation is from inside of the request, mostly likely a timeout
             throw new Exception("HttpRequest was canceled, most likely due to a timeout.", canceledException);
         }
-
-        request.Dispose();
-        httpClient.Dispose();
+        finally
+        {
+            request.Dispose();
+            httpClient.Dispose();
+        }
 
         return response;
     }
