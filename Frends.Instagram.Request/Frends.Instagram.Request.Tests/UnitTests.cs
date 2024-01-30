@@ -129,8 +129,6 @@ public class UnitTests
         Assert.IsNotNull(ret);
     }
 
-    // --
-
     [Test]
     public async Task Get_Me_Success()
     {
@@ -186,7 +184,7 @@ public class UnitTests
     }
 
     [Test]
-    public async Task Get_ThrowErrorOnFailure_True()
+    public void Get_ThrowErrorOnFailure_True()
     {
         var input = new Input
         {
@@ -201,8 +199,6 @@ public class UnitTests
         var result = Assert.ThrowsAsync<Exception>(() => Instagram.Request(input, options, default));
         Assert.IsNotNull(result.Message);
     }
-
-    // --
 
     private static async Task<JObject> GetAsync(string url, string token)
     {
