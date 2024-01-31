@@ -1,5 +1,4 @@
-﻿#pragma warning disable SA1629 // Documentation text should end with a period.
-namespace Frends.Instagram.Get.Definitions;
+﻿namespace Frends.Instagram.Request.Definitions;
 
 using System.ComponentModel;
 

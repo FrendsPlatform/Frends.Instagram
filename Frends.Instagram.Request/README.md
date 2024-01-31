@@ -1,9 +1,9 @@
-# Frends.Instagram.Get
-The Task gets data from Instagram API.
+# Frends.Instagram.Request
+The Frends task makes HTTP request to Instagram API with given reference, parameters and token.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Build](https://github.com/FrendsPlatform/Frends.Instagram/actions/workflows/Get_build_and_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.Instagram/actions)
-![Coverage](https://app-github-custom-badges.azurewebsites.net/Badge?key=FrendsPlatform/Frends.Instagram/Frends.Instagram.Get|main)
+[![Build](https://github.com/FrendsPlatform/Frends.Instagram/actions/workflows/Request_build_and_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.Instagram/actions)
+![Coverage](https://app-github-custom-badges.azurewebsites.net/Badge?key=FrendsPlatform/Frends.Instagram/Frends.Instagram.Request|main)
 
 ## Installing
 
@@ -13,7 +13,7 @@ You can install the Task via frends UI Task View.
 
 ### Clone a copy of the repository
 
-`git clone https://github.com/FrendsPlatform/Frends.Instagram.Get.git`
+`git clone https://github.com/FrendsPlatform/Frends.Facebook.Get.git`
 
 ### Build the project
 
