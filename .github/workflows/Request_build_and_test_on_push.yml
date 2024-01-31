@@ -5,14 +5,14 @@ on:
     branches-ignore:    
       - main
     paths:
-      - 'Frends.Facebook.Request/**'
+      - 'Frends.Instagram.Request/**'
   workflow_dispatch:
 
 jobs:
   build:
     uses: FrendsPlatform/FrendsTasks/.github/workflows/linux_build_test.yml@main
     with:
-      workdir: Frends.Facebook.Request
+      workdir: Frends.Instagram.Request
       env_var_name_1: Facebook_token
     secrets:
       badge_service_api_key: ${{ secrets.BADGE_SERVICE_API_KEY }}
