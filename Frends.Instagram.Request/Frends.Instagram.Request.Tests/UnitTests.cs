@@ -3,6 +3,7 @@ namespace Frends.Instagram.Request.Tests;
 using Frends.Instagram.Request.Definitions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Net.Http;
 using System.Threading;
@@ -44,9 +45,9 @@ public class UnitTests
         };
 
         var ret = Instagram.Request(input, new Options { ThrowErrorOnFailure = true }, default);
-        Assert.IsNotNull(ret);
-        Assert.AreEqual(ret.Result.Statuscode, 200);
-        Assert.IsTrue(ret.Result.Message.Contains(objectId));
+        ClassicAssert.IsNotNull(ret);
+        ClassicAssert.AreEqual(ret.Result.Statuscode, 200);
+        ClassicAssert.IsTrue(ret.Result.Message.Contains(objectId));
     }
 
     [Test]
@@ -61,7 +62,7 @@ public class UnitTests
         };
 
         var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
-        Assert.IsNotNull(ret);
+        ClassicAssert.IsNotNull(ret);
     }
 
     [Test]
@@ -78,7 +79,7 @@ public class UnitTests
         var option = new Options { ThrowErrorOnFailure = true };
 
         var ret = Assert.ThrowsAsync<Exception>(() => Instagram.Request(input, option, default));
-        Assert.IsNotNull(ret);
+        ClassicAssert.IsNotNull(ret);
     }
 
     [Test]
@@ -94,7 +95,7 @@ public class UnitTests
         };
 
         var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
-        Assert.IsNotNull(ret);
+        ClassicAssert.IsNotNull(ret);
     }
 
     [Test]
@@ -110,7 +111,7 @@ public class UnitTests
         };
 
         var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
-        Assert.IsNotNull(ret);
+        ClassicAssert.IsNotNull(ret);
     }
 
     [Test]
@@ -126,7 +127,7 @@ public class UnitTests
         };
 
         var ret = Assert.ThrowsAsync<ArgumentNullException>(() => Instagram.Request(input, new Options(), default));
-        Assert.IsNotNull(ret);
+        ClassicAssert.IsNotNull(ret);
     }
 
     [Test]
@@ -143,8 +144,8 @@ public class UnitTests
         var options = new Options() { ThrowErrorOnFailure = true };
 
         var result = await Instagram.Request(input, options, default);
-        Assert.AreEqual(200, result.Statuscode);
-        Assert.IsNotNull(result.Message);
+        ClassicAssert.AreEqual(200, result.Statuscode);
+        ClassicAssert.IsNotNull(result.Message);
     }
 
     [Test]
@@ -161,8 +162,8 @@ public class UnitTests
         var options = new Options() { ThrowErrorOnFailure = true };
 
         var result = await Instagram.Request(input, options, default);
-        Assert.AreEqual(200, result.Statuscode);
-        Assert.IsNotNull(result.Message);
+        ClassicAssert.AreEqual(200, result.Statuscode);
+        ClassicAssert.IsNotNull(result.Message);
     }
 
     [Test]
@@ -179,8 +180,8 @@ public class UnitTests
         var options = new Options() { ThrowErrorOnFailure = false };
 
         var result = await Instagram.Request(input, options, default);
-        Assert.AreEqual(400, result.Statuscode);
-        Assert.IsNotNull(result.Message);
+        ClassicAssert.AreEqual(400, result.Statuscode);
+        ClassicAssert.IsNotNull(result.Message);
     }
 
     [Test]
@@ -197,7 +198,7 @@ public class UnitTests
         var options = new Options() { ThrowErrorOnFailure = true };
 
         var result = Assert.ThrowsAsync<Exception>(() => Instagram.Request(input, options, default));
-        Assert.IsNotNull(result.Message);
+        ClassicAssert.IsNotNull(result.Message);
     }
 
     private static async Task<JObject> GetAsync(string url, string token)
