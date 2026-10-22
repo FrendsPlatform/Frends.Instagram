@@ -1,6 +1,7 @@
 ﻿namespace Frends.Instagram.Request.Definitions;
 
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 /// <summary>
 /// Options class usually contains parameters that are optional.
@@ -12,5 +13,13 @@ public class Options
     /// </summary>
     /// <example>true</example>
     [DefaultValue(true)]
-    public bool ThrowErrorOnFailure { get; set; }
+    public bool ThrowErrorOnFailure { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the error message to use on failure. If ThrowErrorOnFailure is true, the original exception is wrapped in a new Exception with this message.
+    /// </summary>
+    /// <example>Instagram request failed</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    [DefaultValue("")]
+    public string ErrorMessageOnFailure { get; set; } = string.Empty;
 }
