@@ -34,14 +34,14 @@ public static class Instagram
         try
         {
             if (string.IsNullOrEmpty(input.AccessToken))
-                throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
+                throw new ArgumentNullException(nameof(input), "AccessToken cannot be empty.");
             if (string.IsNullOrEmpty(input.ApiVersion))
-                throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
+                throw new ArgumentNullException(nameof(input), "ApiVersion cannot be empty.");
             if (string.IsNullOrEmpty(input.Reference))
-                throw new ArgumentNullException(nameof(input.Reference) + " cannot be empty.");
+                throw new ArgumentNullException(nameof(input), "Reference cannot be empty.");
             if (string.IsNullOrEmpty(input.Message) &&
                 Enum.GetNames(typeof(SendMethods)).Contains(input.Method.ToString()))
-                throw new ArgumentNullException(nameof(input.Message) + " cannot be empty.");
+                throw new ArgumentNullException(nameof(input), "Message cannot be empty.");
 
             var headers = GetHeaderDictionary(input);
 
@@ -95,7 +95,7 @@ public static class Instagram
         }
     }
 
-    private static IDictionary<string, string> GetHeaderDictionary(Input inputs)
+    private static Dictionary<string, string> GetHeaderDictionary(Input inputs)
     {
         var authHeader = new Header
         {
@@ -108,7 +108,7 @@ public static class Instagram
         return headers.ToDictionary(key => key.Name, value => value.Value, StringComparer.InvariantCultureIgnoreCase);
     }
 
-    private static HttpContent GetContent(Input input, IDictionary<string, string> headers)
+    private static StringContent GetContent(Input input, IDictionary<string, string> headers)
     {
         // Check if Content-Type exists and is set and valid
         var contentTypeIsSetAndValid = false;
