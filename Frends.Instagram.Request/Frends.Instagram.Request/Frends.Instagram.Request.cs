@@ -26,7 +26,10 @@ public static class Instagram
     /// <param name="options">Optional parameters.</param>
     /// <param name="cancellationToken">Cancellation token given by Frends.</param>
     /// <returns>object { bool Success, int Statuscode, dynamic Message, object Error { string Message, Exception AdditionalInfo } }</returns>
-    public static async Task<Result> Request([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
+    public static async Task<Result> Request(
+        [PropertyTab] Input input,
+        [PropertyTab] Options options,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -36,13 +39,17 @@ public static class Instagram
                 throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
             if (string.IsNullOrEmpty(input.Reference))
                 throw new ArgumentNullException(nameof(input.Reference) + " cannot be empty.");
-            if (string.IsNullOrEmpty(input.Message) && Enum.GetNames(typeof(SendMethods)).Contains(input.Method.ToString()))
+            if (string.IsNullOrEmpty(input.Message) &&
+                Enum.GetNames(typeof(SendMethods)).Contains(input.Method.ToString()))
                 throw new ArgumentNullException(nameof(input.Message) + " cannot be empty.");
 
             var headers = GetHeaderDictionary(input);
 
             using var content = GetContent(input, headers);
-            var url = $@"https://graph.facebook.com/v{input.ApiVersion}/" + (!string.IsNullOrEmpty(input.QueryParameters) ? input.Reference + "?" + input.QueryParameters : input.Reference);
+            var url = $@"https://graph.facebook.com/v{input.ApiVersion}/" +
+                      (!string.IsNullOrEmpty(input.QueryParameters)
+                          ? input.Reference + "?" + input.QueryParameters
+                          : input.Reference);
             using var responseMessage = await GetHttpRequestResponseAsync(
                     new HttpClient(),
                     input.Method.ToString(),
@@ -54,19 +61,10 @@ public static class Instagram
 
             var hbody = string.Empty;
 
-    #if NET471
-            try
-            {
-                hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false) : null;
-            }
-            finally
-            {
-                content.Dispose();
-                responseMessage.Dispose();
-            }
-    #elif NET6_0_OR_GREATER
-            hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false) : null;
-    #endif
+            hbody = responseMessage.Content != null
+                ? await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
+                : null;
+
             var hstatusCode = (int)responseMessage.StatusCode;
 
             if (hstatusCode != 200)
@@ -119,7 +117,9 @@ public static class Instagram
             contentTypeIsSetAndValid = MediaTypeWithQualityHeaderValue.TryParse(contentTypeValue, out validContentType);
 
         return contentTypeIsSetAndValid
-            ? new StringContent(input.Message ?? string.Empty, Encoding.GetEncoding(validContentType.CharSet ?? Encoding.UTF8.WebName))
+            ? new StringContent(
+                input.Message ?? string.Empty,
+                Encoding.GetEncoding(validContentType.CharSet ?? Encoding.UTF8.WebName))
             : new StringContent(input.Message ?? string.Empty);
     }
 
