@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0] - 2026-10-26
+### Changed
+- **[Breaking Change]** The Task now targets .NET 8.
+- **[Breaking Change]** The Task result now includes `Success` and `Error` properties. When `ThrowErrorOnFailure` is false, errors are returned in `Error` instead of being thrown.
+- **[Breaking Change]** `ThrowErrorOnFailure` now defaults to true.
+- Added `ErrorMessageOnFailure` option for overriding the error message on failure.
+
 ## [1.1.0] - 2025-02-17
 ### Changed
 - Update package System.ComponentModel.Annotations from 4.7.0 to 5.0.0

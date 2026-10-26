@@ -1,13 +1,13 @@
-namespace Frends.Instagram.Request.Tests;
+﻿namespace Frends.Instagram.Request.Tests;
 
-using Frends.Instagram.Request.Definitions;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Frends.Instagram.Request.Definitions;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 [TestFixture]
 public class UnitTests

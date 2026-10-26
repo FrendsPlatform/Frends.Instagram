@@ -1,6 +1,4 @@
-﻿#pragma warning disable SA1200 //Using directives should be placed correctly.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.Instagram.Request.Definitions;
+using Frends.Instagram.Request.Helpers;
 
 namespace Frends.Instagram.Request;
 
@@ -26,52 +25,76 @@ public static class Instagram
     /// <param name="input">Set reference type, parameters and token.</param>
     /// <param name="options">Optional parameters.</param>
     /// <param name="cancellationToken">Cancellation token given by Frends.</param>
-    /// <returns>Object { int StatusCode, dynamic Message }.</returns>
+    /// <returns>object { bool Success, int Statuscode, dynamic Message, object Error { string Message, Exception AdditionalInfo } }</returns>
     public static async Task<Result> Request([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(input.AccessToken))
-            throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
-        if (string.IsNullOrEmpty(input.ApiVersion))
-            throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
-        if (string.IsNullOrEmpty(input.Reference))
-            throw new ArgumentNullException(nameof(input.Reference) + " cannot be empty.");
-        if (string.IsNullOrEmpty(input.Message) && Enum.GetNames(typeof(SendMethods)).Contains(input.Method.ToString()))
-            throw new ArgumentNullException(nameof(input.Message) + " cannot be empty.");
-
-        var headers = GetHeaderDictionary(input);
-
-        using var content = GetContent(input, headers);
-        var url = $@"https://graph.facebook.com/v{input.ApiVersion}/" + (!string.IsNullOrEmpty(input.QueryParameters) ? input.Reference + "?" + input.QueryParameters : input.Reference);
-        using var responseMessage = await GetHttpRequestResponseAsync(
-                new HttpClient(),
-                input.Method.ToString(),
-                url,
-                content,
-                headers,
-                cancellationToken)
-            .ConfigureAwait(false);
-
-        var hbody = string.Empty;
-
-#if NET471
         try
         {
-            hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false) : null;
+            if (string.IsNullOrEmpty(input.AccessToken))
+                throw new ArgumentNullException(nameof(input.AccessToken) + " cannot be empty.");
+            if (string.IsNullOrEmpty(input.ApiVersion))
+                throw new ArgumentNullException(nameof(input.ApiVersion) + " cannot be empty.");
+            if (string.IsNullOrEmpty(input.Reference))
+                throw new ArgumentNullException(nameof(input.Reference) + " cannot be empty.");
+            if (string.IsNullOrEmpty(input.Message) && Enum.GetNames(typeof(SendMethods)).Contains(input.Method.ToString()))
+                throw new ArgumentNullException(nameof(input.Message) + " cannot be empty.");
+
+            var headers = GetHeaderDictionary(input);
+
+            using var content = GetContent(input, headers);
+            var url = $@"https://graph.facebook.com/v{input.ApiVersion}/" + (!string.IsNullOrEmpty(input.QueryParameters) ? input.Reference + "?" + input.QueryParameters : input.Reference);
+            using var responseMessage = await GetHttpRequestResponseAsync(
+                    new HttpClient(),
+                    input.Method.ToString(),
+                    url,
+                    content,
+                    headers,
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            var hbody = string.Empty;
+
+    #if NET471
+            try
+            {
+                hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false) : null;
+            }
+            finally
+            {
+                content.Dispose();
+                responseMessage.Dispose();
+            }
+    #elif NET6_0_OR_GREATER
+            hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false) : null;
+    #endif
+            var hstatusCode = (int)responseMessage.StatusCode;
+
+            if (hstatusCode != 200)
+            {
+                if (options.ThrowErrorOnFailure)
+                    throw new Exception(hbody);
+
+                return new Result
+                {
+                    Success = false,
+                    Statuscode = hstatusCode,
+                    Message = hbody,
+                    Error = new Error { Message = hbody },
+                };
+            }
+
+            return new Result
+            {
+                Success = true,
+                Statuscode = hstatusCode,
+                Message = hbody,
+                Error = null,
+            };
         }
-        finally
+        catch (Exception ex)
         {
-            content.Dispose();
-            responseMessage.Dispose();
+            return ex.Handle(options);
         }
-#elif NET6_0_OR_GREATER
-        hbody = responseMessage.Content != null ? await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false) : null;
-#endif
-        var hstatusCode = (int)responseMessage.StatusCode;
-
-        if (options.ThrowErrorOnFailure && hstatusCode != 200)
-            throw new Exception(hbody);
-
-        return new Result(hstatusCode, hbody);
     }
 
     private static IDictionary<string, string> GetHeaderDictionary(Input inputs)
