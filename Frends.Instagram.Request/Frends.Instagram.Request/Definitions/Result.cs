@@ -1,4 +1,4 @@
-﻿namespace Frends.Instagram.Request.Definitions;
+namespace Frends.Instagram.Request.Definitions;
 
 /// <summary>
 /// Result class usually contains properties of the return object.
@@ -6,25 +6,26 @@
 public class Result
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Result"/> class.
+    /// Gets or sets a value indicating whether the request was executed successfully.
     /// </summary>
-    /// <param name="statuscode">Indicates whether GET call was executed succesfully.</param>
-    /// <param name="message">Returns the message from the interface.</param>
-    internal Result(int statuscode, object message)
-    {
-        this.Statuscode = statuscode;
-        this.Message = message;
-    }
+    /// <example>true</example>
+    public bool Success { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether GET call was executed successfully.
+    /// Gets or sets the HTTP status code of the response.
     /// </summary>
-    /// <example>True.</example>
-    public int Statuscode { get; private set; }
+    /// <example>200</example>
+    public int Statuscode { get; set; }
 
     /// <summary>
-    /// Gets message from the interface.
+    /// Gets or sets message from the interface.
     /// </summary>
     /// <example>{ "id": 123456789, "name": "UserName" }</example>
-    public dynamic Message { get; private set; }
+    public dynamic Message { get; set; }
+
+    /// <summary>
+    /// Gets or sets the error that occurred during task execution.
+    /// </summary>
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error Error { get; set; }
 }
