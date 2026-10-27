@@ -31,6 +31,9 @@ public static class Instagram
         [PropertyTab] Options options,
         CancellationToken cancellationToken)
     {
+        var hbody = string.Empty;
+        var hstatusCode = 0;
+
         try
         {
             if (string.IsNullOrEmpty(input.AccessToken))
@@ -59,27 +62,14 @@ public static class Instagram
                     cancellationToken)
                 .ConfigureAwait(false);
 
-            var hbody = string.Empty;
-
             hbody = responseMessage.Content != null
                 ? await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
                 : null;
 
-            var hstatusCode = (int)responseMessage.StatusCode;
+            hstatusCode = (int)responseMessage.StatusCode;
 
             if (hstatusCode != 200)
-            {
-                if (options.ThrowErrorOnFailure)
-                    throw new Exception(hbody);
-
-                return new Result
-                {
-                    Success = false,
-                    Statuscode = hstatusCode,
-                    Message = hbody,
-                    Error = new Error { Message = hbody },
-                };
-            }
+                throw new Exception(hbody);
 
             return new Result
             {
@@ -91,7 +81,7 @@ public static class Instagram
         }
         catch (Exception ex)
         {
-            return ex.Handle(options);
+            return ex.Handle(options, statusCode: hstatusCode, body: hbody);
         }
     }
 

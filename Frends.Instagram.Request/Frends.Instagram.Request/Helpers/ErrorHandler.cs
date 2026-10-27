@@ -15,8 +15,15 @@ internal static class ErrorHandler
     /// When true, an OperationCanceledException is rethrown immediately.
     /// When false, cancellation is handled like any other failure.
     /// </param>
+    /// <param name="statusCode">HTTP status code of the response, if one was received.</param>
+    /// <param name="body">HTTP response body, if one was received.</param>
     /// <returns> A failed Result object when the exception is handled instead of rethrown. </returns>
-    internal static Result Handle(this Exception exception, Options options, bool throwCanceled = true)
+    internal static Result Handle(
+        this Exception exception,
+        Options options,
+        bool throwCanceled = true,
+        int statusCode = 0,
+        string body = null)
     {
         ArgumentNullException.ThrowIfNull(exception);
         ArgumentNullException.ThrowIfNull(options);
@@ -24,7 +31,10 @@ internal static class ErrorHandler
         ThrowIfCanceled(exception, throwCanceled);
         if (options.ThrowErrorOnFailure) ThrowBaseException(exception, options.ErrorMessageOnFailure);
 
-        return ReturnResult(exception, options.ErrorMessageOnFailure);
+        var result = ReturnResult(exception, options.ErrorMessageOnFailure);
+        result.Statuscode = statusCode;
+        result.Message = body;
+        return result;
     }
 
     private static void ThrowIfCanceled(Exception exception, bool throwCanceled = true)
